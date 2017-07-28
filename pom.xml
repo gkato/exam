@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>exam</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Simple Thin Exam Api</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -44,6 +44,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.xerial</groupId>
+		    <artifactId>sqlite-jdbc</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -54,6 +62,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>
