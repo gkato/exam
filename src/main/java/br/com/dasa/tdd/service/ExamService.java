@@ -1,5 +1,7 @@
 package br.com.dasa.tdd.service;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ public class ExamService {
 	}
 
 	private boolean validatesExam(Exam exam) {
-		return exam.getName() == null || exam.getGender() == null;
+		return exam.getName() == null || exam.getGender() == null || !Arrays.asList("male", "female").contains(exam.getGender());
 	}
 
 	public Exam getExam(Long id) {
