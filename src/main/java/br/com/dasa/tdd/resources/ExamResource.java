@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.dasa.tdd.model.Exam;
 import br.com.dasa.tdd.service.ExamService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value="/exams")
@@ -22,31 +21,31 @@ public class ExamResource {
 	@Autowired
 	private ExamService examService; 
 	
-	@ApiOperation(value = "View an Exam", response = Response.class)
 	@RequestMapping(value="/{examId}", method=RequestMethod.GET)
 	public Response getExam(@PathVariable("examId") Long examId) {
 		try {
 			Exam exam = examService.getExam(examId);
 			if(exam != null) {
-				return Response.ok(exam).build();
+				return Response.status(Response.Status.OK).entity(exam).build();
 			}
-			return Response.status(Response.Status.NOT_FOUND).build();
+			return Response.status(Response.Status.NOT_FOUND).entity("Exame nao encontrado").build();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Response.serverError().build();
+			return Response.serverError().entity("Erro ao buscar exame").build();
 		} 
 	}
 
-	@ApiOperation(value = "Create an Exam", response = Response.class)
 	@RequestMapping(method=RequestMethod.PUT)
 	public Response createExam(@RequestBody Exam exam) {
 		try {
 			examService.createExam(exam);
+		} catch (IllegalArgumentException e) {
+			return Response.status(Response.Status.BAD_REQUEST).entity("Dados do Exame inválidos").build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.serverError().build();
 		}
 		
-		return Response.status(Response.Status.CREATED).build();
+		return Response.status(Response.Status.CREATED).entity("Erro ao criar exame").build();
 	}
 }

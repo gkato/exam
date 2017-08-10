@@ -52,6 +52,17 @@ public class ExamResourceTest {
 	}
 	
 	@Test
+	public void creates_exam_invalid_gender() {
+		exam.setGender("maleee");
+		Mockito.doThrow(new IllegalArgumentException()).when(service).createExam(exam);
+		
+		Response response = resource.createExam(exam);
+		
+		Assert.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+		Mockito.verify(service, Mockito.times(0)).getExam(exam.getId());
+	}
+	
+	@Test
 	public void gets_exam_success() {
 		Mockito.when(service.getExam(exam.getId())).thenReturn(exam);
 		

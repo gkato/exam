@@ -46,8 +46,15 @@ public class ExamServiceTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void creates_exam_invalid_gender() {
+	public void creates_exam_invalid_gender_when_null() {
 		exam.setGender(null);
+		
+		examService.createExam(exam);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void creates_exam_invalid_gender_when_diff_domain() {
+		exam.setGender("maleee");
 		
 		examService.createExam(exam);
 	}

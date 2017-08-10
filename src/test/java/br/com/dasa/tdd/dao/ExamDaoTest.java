@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import br.com.dasa.tdd.dao.ExamDao.ExamMapper;
@@ -36,7 +37,7 @@ public class ExamDaoTest {
 
 	@Test
 	public void get_exam_not_found() {
-		Mockito.when(jdbcTemplate.queryForObject(Mockito.anyString(), Mockito.any(Object[].class), Mockito.any(ExamMapper.class))).thenReturn(null);
+		Mockito.when(jdbcTemplate.queryForObject(Mockito.anyString(), Mockito.any(Object[].class), Mockito.any(ExamMapper.class))).thenThrow(new EmptyResultDataAccessException(0));
 		
 		Exam exam = examDao.getExam(1l);
 		

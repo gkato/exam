@@ -3,7 +3,10 @@ package br.com.dasa.tdd.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.ws.rs.Produces;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.dasa.tdd.model.Exam;
 
 @Repository
+@Produces("application/json")
 public class ExamDao {
 
 	public static String SQL_GET = "select * from exams where id = ?";
@@ -20,7 +24,11 @@ public class ExamDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	public Exam getExam(Long id) {
-		return jdbcTemplate.queryForObject(SQL_GET, new Object[] {id}, new ExamMapper());
+		try {
+			return jdbcTemplate.queryForObject(SQL_GET, new Object[] {id}, new ExamMapper());
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	public void create(Exam exam) {
